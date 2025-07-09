@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <title>Responsive Reading 📖</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00695c">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Responsive Readings</h1>
+  <div id="readingList"></div>
+
+  <script>
+    fetch('https://opensheet.vercel.app/1--8MuGSIGJTY8TRnog-tIE8Lij2eYkDfWEMjQ6f-Clw/Sheet1')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("readingList");
+        data.forEach(item => {
+          const div = document.createElement("div");
+          div.innerHTML = `
+            <h2>အမှတ် ${item.Number} — ${item.Title}</h2>
+            <embed src="${item['PDF Link']}" width="100%" height="600px" type="application/pdf">
+            <hr>`;
+          container.appendChild(div);
+        });
+      });
+    
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>
